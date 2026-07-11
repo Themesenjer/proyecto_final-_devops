@@ -1,0 +1,133 @@
+:root {
+    --primary: #4f46e5;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --background: #f3f4f6;
+    --surface: #ffffff;
+    --text: #1f2937;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.card {
+    background: var(--surface);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.hidden {
+    display: none !important;
+}
+
+h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+button {
+    cursor: pointer;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.btn-primary { width: 100%; background: var(--primary); color: white; }
+.btn-primary:hover { background: #4338ca; }
+.btn-success { background: var(--success); color: white; }
+.btn-success:hover { background: #15803d; }
+.btn-danger { background: var(--danger); color: white; padding: 5px 10px; font-size: 0.85rem; }
+
+#toggle-auth {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+#toggle-auth span {
+    color: var(--primary);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Estilos de la app de hábitos */
+.tracker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--background);
+    padding-bottom: 10px;
+}
+
+.habit-inline-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#habits-list {
+    list-style: none;
+}
+
+.habit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: var(--background);
+    margin-bottom: 8px;
+    border-radius: 6px;
+}
+
+.habit-item.completed span {
+    text-decoration: line-through;
+    color: #9ca3af;
+}
+
+.habit-actions {
+    display: flex;
+    gap: 8px;
+}

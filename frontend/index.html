@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker - DevOps Project</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- SECCIÓN 1: AUTENTICACIÓN (LOGIN/REGISTRO) -->
+        <div id="auth-card" class="card">
+            <h2 id="auth-title">Iniciar Sesión</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" required placeholder="tu@correo.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" required placeholder="******">
+                </div>
+                <button type="submit" id="auth-btn" class="btn-primary">Ingresar</button>
+            </form>
+            <p id="toggle-auth">¿No tienes cuenta? <span id="auth-action-text">Regístrate aquí</span></p>
+        </div>
+
+        <!-- SECCIÓN 2: TRACKER DE HÁBITOS (OCULTO POR DEFECTO) -->
+        <div id="tracker-card" class="card hidden">
+            <div class="tracker-header">
+                <h2>Mis Hábitos Diarios</h2>
+                <button id="logout-btn" class="btn-danger">Cerrar Sesión</button>
+            </div>
+
+            <!-- Formulario CRUD para agregar hábito -->
+            <form id="habit-form" class="habit-inline-form">
+                <input type="text" id="habit-name" required placeholder="Ej. Leer 30 minutos, Ir al gym...">
+                <button type="submit" class="btn-success">+ Añadir</button>
+            </form>
+
+            <!-- Lista donde se renderizan los hábitos desde el Backend -->
+            <ul id="habits-list">
+                <!-- Los elementos se insertarán dinámicamente desde JS -->
+            </ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
