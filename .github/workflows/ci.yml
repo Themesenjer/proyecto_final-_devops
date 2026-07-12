@@ -1,0 +1,40 @@
+name: CI Pipeline - Habit Tracker
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # --- TRABAJO 1: VALIDAR EL BACKEND ---
+  backend-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno de Python
+        uses: actions/setup-python@v5
+        with:
+          python-python: '3.10'
+
+      - name: Instalar dependencias del Backend
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f backend/requirements.txt ]; then pip install -r backend/requirements.txt; fi
+
+      - name: Validar compilación de la imagen Docker del Backend
+        run: |
+          docker build -t habit-backend-test:latest ./backend
+
+  # --- TRABAJO 2: VALIDAR EL FRONTEND ---
+  frontend-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Validar compilación de la imagen Docker del Frontend
+        run: |
+          docker build -t habit-frontend-test:latest ./frontend

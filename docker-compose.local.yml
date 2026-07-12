@@ -1,0 +1,74 @@
+networks:
+  habit_network:
+    driver: bridge
+
+services:
+  # --- BASE DE DATOS (PostgreSQL) ---
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: local_postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret_password_2026
+      POSTGRES_DB: habit_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - habit_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d habit_db"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  # --- ADMINISTRADOR GRÁFICO (pgAdmin) ---
+  pgadmin:
+    image: dpage/pgadmin4:8.4
+    container_name: local_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin1234
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres_db
+    networks:
+      - habit_network
+
+  # --- BACKEND (FastAPI / Python) ---
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: local_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=postgres_db
+      - DB_NAME=habit_db
+      - DB_USER=postgres
+      - DB_PASSWORD=secret_password_2026
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    networks:
+      - habit_network
+
+  # --- FRONTEND (Nginx) ---
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: local_frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - habit_network
+
+volumes:
+  pgdata:
+    driver: local
