@@ -1,5 +1,5 @@
 // Configuración de la URL del Backend (API)
-const API_URL = "http://localhost:8000"; 
+const API_URL = "https://api.devops-yavirac-pablo.duckdns.org"; 
 
 let isLoginMode = true;
 let userToken = null; // Guardará el JWT tras el login
