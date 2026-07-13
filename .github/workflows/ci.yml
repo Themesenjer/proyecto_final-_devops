@@ -4,6 +4,11 @@ on:
   push:
     branches: [ "main" ]
 
+# ESTO SOLUCIONA EL ERROR DE PERMISOS PARA CREAR EL PAQUETE EN GHCR
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   # --- BLOQUE 1: COMPILAR Y SUBIR IMÁGENES A GITHUB PACKAGES (GHCR) ---
   build-and-push:
