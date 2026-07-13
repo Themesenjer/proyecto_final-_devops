@@ -16,7 +16,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: themesenjer
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compilar y subir imagen Backend
@@ -24,14 +24,14 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: ghcr.io/${{ github.actor }}/proyecto_final-backend:latest
+          tags: ghcr.io/themesenjer/proyecto_final-backend:latest
 
       - name: Compilar y subir imagen Frontend
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
           push: true
-          tags: ghcr.io/${{ github.actor }}/proyecto_final-frontend:latest
+          tags: ghcr.io/themesenjer/proyecto_final-frontend:latest
 
   # --- BLOQUE 2: DESPLIEGUE CONTINUO EN EL VPS VIA SSH ---
   deploy-to-vps:
@@ -45,13 +45,11 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER}}
+          username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            # Crear directorio para la app si no existe
             mkdir -p /apps/habit-tracker
             
-            # Escribir el archivo de producción directamente en el VPS de forma automatizada
             cat << 'EOF' > /apps/habit-tracker/docker-compose.yml
             version: '3.8'
             services:
@@ -137,7 +135,6 @@ jobs:
                 external: true
             EOF
 
-            # Ejecutar el despliegue automático en el VPS descargando las imágenes de GitHub Packages
             cd /apps/habit-tracker
             docker compose pull
             docker compose up -d --remove-orphans
