@@ -9,7 +9,7 @@ import time
 
 app = FastAPI(title="Habit Tracker API")
 
-# Habilitar CORS
+# Habilitar CORS de manera global
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ESTO CONFIGURA EL CANDADO EN SWAGGER AUTOMÁTICAMENTE
+# Configura el candado en Swagger automáticamente
 security_scheme = HTTPBearer()
 
 # Modelos de datos
@@ -113,11 +113,9 @@ def login(user: UserAuth):
     
     return {"token": db_user["email"]}
 
-# USAMOS DEPENDS PARA EXTRAER EL TOKEN DE MANERA ESTÁNDAR
 @app.get("/habits")
 def get_habits(credentials: HTTPAuthorizationCredentials = Depends(security_scheme)):
-    email = credentials.credentials # Aquí FastAPI ya limpió el "Bearer " de adelante
-    
+    email = credentials.credentials
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT h.* FROM habits h JOIN users u ON h.user_id = u.id WHERE u.email = %s", (email,))
